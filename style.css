@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 200px auto;
+  width: 960px;
+  aspect-ratio: 1;
+  border: 5px solid black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-square {
+  border: 1px solid rgba(0, 0, 0, 0.489);
+  width: calc(100% / var(--size));
+  aspect-ratio: 1;
+}
