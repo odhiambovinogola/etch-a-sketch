@@ -1,3 +1,4 @@
+let isDrawing = false;
 const container = document.querySelector(".container");
 
 function createGrid(size) {
@@ -11,6 +12,22 @@ function createGrid(size) {
 
   container.style.setProperty("--size", size);
 }
+
+container.addEventListener("mousedown", () => (isDrawing = true));
+window.addEventListener("mouseup", () => (isDrawing = false));
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Shift") isDrawing = true;
+});
+window.addEventListener("keyup", (event) => {
+  if (event.key === "Shift") isDrawing = false;
+});
+
+container.addEventListener("mouseover", (event) => {
+  if (!event.target.classList.contains("grid-square")) return;
+  if (!isDrawing) return;
+  event.target.style.backgroundColor = "black";
+});
 
 const size =
   Number.parseInt(prompt("Pick a number for the grid:", 16), 10) || 16;
