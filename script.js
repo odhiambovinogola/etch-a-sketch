@@ -1,5 +1,7 @@
-let isDrawing = false;
 const container = document.querySelector(".container");
+const resizeBtn = document.querySelector(".grid-resize");
+const defaultSize = 16;
+let isDrawing = false;
 
 function createGrid(size) {
   container.replaceChildren();
@@ -29,6 +31,18 @@ container.addEventListener("mouseover", (event) => {
   event.target.style.backgroundColor = "black";
 });
 
-const size =
-  Number.parseInt(prompt("Pick a number for the grid:", 16), 10) || 16;
-createGrid(size);
+createGrid(defaultSize);
+
+resizeBtn.addEventListener("click", () => {
+  const size =
+    Number.parseInt(prompt("Pick a number for the grid:", defaultSize), 10) ||
+    defaultSize;
+
+  if (size > 100 || size < 0) {
+    alert(`Sorry that is out of range try numbers between 1 - 100`);
+    createGrid(defaultSize);
+    return;
+  }
+
+  createGrid(size);
+});
