@@ -50,7 +50,7 @@ resizeBtn.addEventListener("click", () => {
     Number.parseInt(prompt("Pick a number for the grid:", defaultSize), 10) ||
     defaultSize;
 
-  if (size > 100 || size < 0) {
+  if (size > 100 || size < 1) {
     alert(`Sorry that is out of range try numbers between 1 - 100`);
     createGrid(defaultSize);
     return;
