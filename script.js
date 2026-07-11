@@ -1,6 +1,7 @@
 const container = document.querySelector(".container");
 const resizeBtn = document.querySelector(".grid-resize");
 const defaultSize = 16;
+const maxHoverCount = 10;
 let isDrawing = false;
 
 function createGrid(size) {
@@ -16,8 +17,10 @@ function createGrid(size) {
 }
 
 container.addEventListener("mousedown", () => (isDrawing = true));
+// mouseup lives on window, not .container, so releasing outside the grid still stops drawing
 window.addEventListener("mouseup", () => (isDrawing = false));
 
+// Shift is an alternate way to draw, independent of holding the mouse button down
 window.addEventListener("keydown", (event) => {
   if (event.key === "Shift") isDrawing = true;
 });
@@ -26,9 +29,18 @@ window.addEventListener("keyup", (event) => {
 });
 
 container.addEventListener("mouseover", (event) => {
-  if (!event.target.classList.contains("grid-square")) return;
+  const square = event.target;
+
+  if (!square.classList.contains("grid-square")) return;
   if (!isDrawing) return;
-  event.target.style.backgroundColor = "black";
+
+  // hoverCount lives on the square itself so each one darkens independently,
+  // capped at maxHoverCount so the count never outgrows what "fully black" means
+  square.hoverCount = square.hoverCount || 0;
+  square.hoverCount = Math.min(square.hoverCount + 1, maxHoverCount);
+
+  const visibility = square.hoverCount / maxHoverCount;
+  square.style.backgroundColor = `rgba(0, 0, 0, ${visibility})`;
 });
 
 createGrid(defaultSize);
